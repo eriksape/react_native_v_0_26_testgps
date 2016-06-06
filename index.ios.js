@@ -12,6 +12,8 @@ import {
   View
 } from 'react-native';
 
+import MapView from 'react-native-maps';
+
 const testgps = React.createClass({
   getInitialState() {
     return {
@@ -38,6 +40,14 @@ const testgps = React.createClass({
     navigator.geolocation.clearWatch(this.watchID);
   },
   render() {
+    let latitude = 0
+    let longitude = 0
+    let pos = {}
+    if(this.state.initialPosition != 'unknown'){
+      pos = JSON.parse(this.state.initialPosition)
+      latitude = pos.coords.latitude
+      longitude = pos.coords.longitude
+    }
     return (
       <View>
         <Text>Hola amigo</Text>
@@ -49,6 +59,19 @@ const testgps = React.createClass({
           <Text style={styles.title}>Current position: </Text>
           {this.state.lastPosition}
         </Text>
+        <Text>
+          hello
+          {(this.state.initialPosition)}
+        </Text>
+        <MapView
+          style={styles.map}
+    initialRegion={{
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 0.0922,
+     longitudeDelta: 0.0421,
+    }}
+  />
       </View>
     );
   }
@@ -57,6 +80,13 @@ const testgps = React.createClass({
 const styles = StyleSheet.create({
   title: {
     fontWeight: '500',
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
 
